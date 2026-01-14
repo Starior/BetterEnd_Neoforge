@@ -72,7 +72,7 @@ public class BetterEndSkyRenderer {
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
-        float blindA = 1F;
+        float blindA = 1F - BackgroundInfo.blindness;
         float blind02 = blindA * 0.2f;
         float blind06 = blindA * 0.6f;
 
@@ -146,7 +146,9 @@ public class BetterEndSkyRenderer {
 
         float a = (BackgroundInfo.fogDensity - 1F);
         if (a > 0) {
-            if (a > 1) a = 1;
+            if (a > 1F) {
+                a = 1F;
+            }
             RenderSystem.setShaderTexture(0, FOG);
             renderBuffer(
                     matrices,
@@ -185,6 +187,34 @@ public class BetterEndSkyRenderer {
         RenderSystem.defaultBlendFunc();
         RenderSystem.disableBlend();
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+
+    public void renderSkyboxOnly(PoseStack matrices, Matrix4f projectionMatrix) {
+        initialise();
+
+        RenderSystem.depthMask(false);
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+
+        RenderSystem.setShaderTexture(0, HORIZON);
+        renderBuffer(
+                matrices,
+                projectionMatrix,
+                horizon,
+                DefaultVertexFormat.POSITION_TEX,
+                1.0f,
+                1.0f,
+                1.0f,
+                1.0f
+        );
+
+        RenderSystem.depthMask(true);
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.disableBlend();
+    }
+
+    public void renderSkyboxWithStars(PoseStack matrices, Matrix4f projectionMatrix, float time) {
+        renderFallback(matrices, projectionMatrix, time);
     }
 
     private void renderBuffer(

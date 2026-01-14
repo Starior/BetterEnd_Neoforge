@@ -3,6 +3,7 @@ package org.betterx.betterend.client;
 import org.betterx.betterend.BetterEnd;
 import org.betterx.betterend.config.Configs;
 import org.betterx.betterend.config.screen.ConfigScreen;
+import org.betterx.betterend.client.render.BetterEndSkyEffect;
 import org.betterx.betterend.events.ItemTooltipCallback;
 import org.betterx.betterend.interfaces.MultiModelItem;
 import org.betterx.betterend.item.CrystaliteArmor;
@@ -62,9 +63,6 @@ public class BetterEndClient {
 
             NeoForge.EVENT_BUS.addListener(BetterEndClient::onItemTooltip);
 
-            if (Configs.CLIENT_CONFIG.customSky.get()) {
-                // TODO: register custom sky renderer on NeoForge (was DimensionRenderingRegistry)
-            }
         });
     }
 
@@ -80,7 +78,10 @@ public class BetterEndClient {
 
     @SubscribeEvent
     public static void registerDimensionEffects(RegisterDimensionSpecialEffectsEvent event) {
-        // Custom End sky is disabled to avoid overly dark visuals.
+        if (!Configs.CLIENT_CONFIG.customSky.get()) {
+            return;
+        }
+        event.register(ResourceLocation.withDefaultNamespace("the_end"), new BetterEndSkyEffect());
     }
 
     @SubscribeEvent

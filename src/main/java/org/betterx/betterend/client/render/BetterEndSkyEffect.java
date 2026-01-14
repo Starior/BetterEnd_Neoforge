@@ -11,12 +11,17 @@ public class BetterEndSkyEffect extends DimensionSpecialEffects {
     private final BetterEndSkyRenderer renderer = new BetterEndSkyRenderer();
 
     public BetterEndSkyEffect() {
-        super(192, true, SkyType.END, false, false);
+        super(Float.NaN, false, SkyType.END, true, false);
     }
 
     @Override
     public Vec3 getBrightnessDependentFogColor(Vec3 color, float sunHeight) {
-        return color;
+        return color.scale(0.15F);
+    }
+
+    @Override
+    public float[] getSunriseColor(float timeOfDay, float partialTicks) {
+        return null;
     }
 
     @Override
@@ -35,10 +40,10 @@ public class BetterEndSkyEffect extends DimensionSpecialEffects {
             boolean isFoggy,
             Runnable setupFog
     ) {
-        float time = ((level.getDayTime() + partialTick) % 360000) * 0.000017453292f;
         PoseStack poseStack = new PoseStack();
         poseStack.last().pose().set(modelViewMatrix);
-        renderer.renderFallback(poseStack, projectionMatrix, time);
+        float time = (float) (((level.getDayTime() + (double) partialTick) % 360000L) * 0.000017453292F);
+        renderer.renderSkyboxWithStars(poseStack, projectionMatrix, time);
         return true;
     }
 }
