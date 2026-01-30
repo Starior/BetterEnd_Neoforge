@@ -422,6 +422,7 @@ jar {
 
 // Collect built jars for BetterEnd and its local BetterX libraries into one folder
 def distDir = new File(rootProject.projectDir.parentFile, "betterx-dist")
+def modrinthModsDir = new File("C:/Users/Redmi/AppData/Roaming/ModrinthApp/profiles/1.21.1 Server ArchiTech/mods")
 tasks.register("copyDistJars", Copy) {
     dependsOn(
             tasks.named("jar"),
@@ -436,9 +437,23 @@ tasks.register("copyDistJars", Copy) {
     into(distDir)
 }
 
+tasks.register("copyModrinthJars", Copy) {
+    dependsOn(
+            tasks.named("jar"),
+            project(":BCLib").tasks.named("jar"),
+            project(":WorldWeaver").tasks.named("jar"),
+            project(":wunderlib").tasks.named("jar")
+    )
+    from(tasks.named("jar"))
+    from(project(":BCLib").tasks.named("jar"))
+    from(project(":WorldWeaver").tasks.named("jar"))
+    from(project(":wunderlib").tasks.named("jar"))
+    into(modrinthModsDir)
+}
+
 tasks.named("build") {
     if (!simpleBuildRequested) {
-        finalizedBy("copyDistJars")
+        finalizedBy("copyDistJars", "copyModrinthJars")
     }
 }
 
