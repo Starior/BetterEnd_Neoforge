@@ -14,6 +14,7 @@ import net.minecraft.world.item.Items;
 public class Integrations {
     public static final ModIntegration BYG = ModIntegrationAPI.register(new BYGIntegration());
     public static final ModIntegration FLAMBOYANT_REFABRICATED = ModIntegrationAPI.register(new FlamboyantRefabricatedIntegration());
+    public static final ModIntegration DYE_DEPOT = ModIntegrationAPI.register(new DyeDepotIntegration());
     private static final ResourceLocation GUIDEBOOK_ID = BetterEnd.C.mk("guidebook");
 
     public static void init() {

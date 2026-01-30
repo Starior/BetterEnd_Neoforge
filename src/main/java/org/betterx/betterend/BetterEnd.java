@@ -38,6 +38,7 @@ public class BetterEnd {
     public static final ModCore BYG = ModCore.create("byg");
     public static final ModCore NOURISH = ModCore.create("nourish");
     public static final ModCore FLAMBOYANT = ModCore.create("flamboyant");
+    public static final ModCore DYE_DEPOT = ModCore.create("dye_depot");
     public static final ModCore PATCHOULI = ModCore.create("patchouli");
     public static final ModCore HYDROGEN = ModCore.create("hydrogen");
     public static final ModCore TRINKETS_CORE = ModCore.create("trinkets");
