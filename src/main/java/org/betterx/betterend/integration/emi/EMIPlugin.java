@@ -67,7 +67,7 @@ public class EMIPlugin implements dev.emi.emi.api.EmiPlugin {
                     AnvilRecipe.TYPE,
                     recipe -> StreamSupport.stream(hammers.spliterator(), false)
                                            .map(Holder::value)
-                                           .filter(recipe::canUse)
+                                           .filter(i -> recipe.value().canUse(i))
                                            .toList(),
                     EMIAnvilRecipe::new
             );
